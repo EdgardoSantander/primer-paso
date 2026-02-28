@@ -1,5 +1,6 @@
 package com.firststep.primer_paso.entity;
 
+import com.firststep.primer_paso.enums.Rol;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
