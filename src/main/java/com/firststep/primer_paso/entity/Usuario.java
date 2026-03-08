@@ -3,12 +3,14 @@ package com.firststep.primer_paso.entity;
 import com.firststep.primer_paso.enums.Rol;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // le dice a JPA que esta clase es una tabla en Postgres
 @Table(name = "usuarios") // nombre de la tabla en la base de datos
 @Data // lombok: genera getters, setters, toString, equals y hashCode
+@Builder
 @NoArgsConstructor // lombok: genera constructor vacío que JPA necesita obligatoriamente
 @AllArgsConstructor // lombok: genera constructor con todos los campos
 public class Usuario {
