@@ -1,5 +1,7 @@
 package com.firststep.primer_paso.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,4 +27,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handlerBadPasswordException(BadCredentialsException ex){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
     }
+
 }
