@@ -33,7 +33,7 @@ public class RefreshTokenService {
         RefreshToken refreshToken = RefreshToken.builder()
                 .token(jwtUtil.generateRefreshToken(usuario.getEmail()))
                 .usuario(usuario)
-                .dateExpires(LocalDateTime.now().plusDays(7))
+                .dateExpires(LocalDateTime.now().plusYears(1))
                 .build();
 
         return refreshTokenRepository.save(refreshToken);
