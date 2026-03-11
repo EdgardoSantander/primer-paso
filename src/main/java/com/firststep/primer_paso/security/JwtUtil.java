@@ -19,7 +19,7 @@ public class JwtUtil {
     private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 15;
 
     // 7 dias en milisegundos
-    private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 * 7;
+    private static final long REFRESH_TOKEN_EXPIRATION = 1000L * 60 * 60 * 24 * 365;
 
     private SecretKey getSigningKey(){
         return Keys.hmacShaKeyFor(secret.getBytes()); // convertimos el token a hmac256
