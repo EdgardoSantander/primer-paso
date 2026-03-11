@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .sessionManagement( session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // le decimos a spring que cada sesion trae su token no guarda sesiones
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/usuarios/registro", "/api/usuarios/login").permitAll() // le decimos que todas estas son publicas
+                        .requestMatchers("/taxi/usuarios/registro", "/taxi/usuarios/login").permitAll() // le decimos que todas estas son publicas
                         .anyRequest().authenticated()) // y para cualquier otra debe pedir autenticacion
                 .build();
     }
