@@ -1,8 +1,10 @@
 package com.firststep.primer_paso.service;
 
 import com.firststep.primer_paso.dto.LoginDTO;
+import com.firststep.primer_paso.dto.UsuarioDTO;
 import com.firststep.primer_paso.dto.UsuarioRegistroDTO;
 import com.firststep.primer_paso.entity.Usuario;
+import com.firststep.primer_paso.enums.Rol;
 import com.firststep.primer_paso.exception.GlobalExceptions;
 import com.firststep.primer_paso.repository.RefreshTokenRepository;
 import com.firststep.primer_paso.repository.UsuarioRepository;
@@ -12,6 +14,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -71,5 +75,19 @@ public class UsuarioService {
                 "refreshToken",refreshToken
         );
 
+    }
+
+    public List<UsuarioDTO> listarUsuarios(){
+        List<UsuarioDTO> usuarios = usuarioRepository.findByRol(Rol.PASAJERO)
+                .stream()
+                .map(usuario -> UsuarioDTO.builder()
+                        .id(usuario.getId())
+                        .nombre(usuario.getNombre())
+                        .email(usuario.getEmail())
+                        .rol(usuario.getRol())
+                        .build())
+                .toList();
+
+        return usuarios;
     }
 }

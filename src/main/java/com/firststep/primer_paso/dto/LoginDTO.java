@@ -1,5 +1,6 @@
 package com.firststep.primer_paso.dto;
 
+import com.firststep.primer_paso.enums.Rol;
 import lombok.Data;
 
 @Data

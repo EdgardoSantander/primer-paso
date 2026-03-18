@@ -1,17 +1,17 @@
 package com.firststep.primer_paso.controller;
 
 import com.firststep.primer_paso.dto.LoginDTO;
+import com.firststep.primer_paso.dto.UsuarioDTO;
 import com.firststep.primer_paso.dto.UsuarioRegistroDTO;
+import com.firststep.primer_paso.entity.Usuario;
 import com.firststep.primer_paso.service.RefreshTokenService;
 import com.firststep.primer_paso.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -38,6 +38,11 @@ public class UsuarioController {
     public ResponseEntity<Map<String,String>> refresh(@RequestBody Map<String,String> request){
        String nuevoAccessToken = refreshTokenService.renovarAccessToken(request.get("refreshToken"));
        return ResponseEntity.ok(Map.of("accessToken",nuevoAccessToken));
+    }
+
+    @GetMapping("/listar/usuarios")
+    public ResponseEntity<List<UsuarioDTO>> listarUsuarios(){
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarUsuarios());
     }
 
 }
