@@ -40,11 +40,14 @@ pipeline {
             steps {
                 echo 'Desplegando y arrancando el contenedor localmente...'
                 script {
-                    // 1. Detiene y elimina el contenedor anterior si ya estaba corriendo para evitar conflictos de puertos
-                    sh "docker stop ${CONTAINER_NAME}  true"
-                    sh "docker rm ${CONTAINER_NAME}  true"
 
-                    // 2. Ejecuta el nuevo contenedor en segundo plano (-d), mapeando puertos
+                    // Detener contenedor anterior si existe
+                    sh "docker stop ${CONTAINER_NAME} || true"
+
+                    // Eliminar contenedor anterior si existe
+                    sh "docker rm ${CONTAINER_NAME} || true"
+
+                    // Crear nuevo contenedor
                     sh """
                         docker run -d \
                           --name ${CONTAINER_NAME} \
