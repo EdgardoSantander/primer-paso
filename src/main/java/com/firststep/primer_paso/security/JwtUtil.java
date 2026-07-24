@@ -1,6 +1,7 @@
 package com.firststep.primer_paso.security;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,9 @@ public class JwtUtil {
     private static final long REFRESH_TOKEN_EXPIRATION = 1000L * 60 * 60 * 24 * 365;
 
     private SecretKey getSigningKey(){
-        return Keys.hmacShaKeyFor(secret.getBytes()); // convertimos el token a hmac256
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(keyBytes); // convertimos el token a hmac256
+         //return Keys.hmacShaKeyFor(secret.getBytes()); // esta no funciona
     }
 
     public String generateToken(String email, String rol){
@@ -30,8 +33,9 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(email) // el subject significa quien es el usuario
                 .claim("rol",rol) // agregamos el rol como extra
-                .setIssuedAt(new Date()) // pasamos la fecha de creacion
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION)) // expira en 24 horas
+                .claim("type","ACCESS")
+                .setIssuedAt(new Date(System.currentTimeMillis())) // pasamos la fecha de creacion
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION)) // expira en 15min
                 .signWith(getSigningKey()) // aqui pasamos nuestra clave para registrar
                 .compact(); // aqui construimos y esto regresaria el token como string
     }
@@ -40,7 +44,8 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .setSubject(email)
-                .setIssuedAt(new Date())
+                .claim("type","REFRESH")
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
                 .signWith(getSigningKey())
                 .compact();
@@ -50,21 +55,8 @@ public class JwtUtil {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
-    }
-
-    public boolean isTokenValid(String token){
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJwt(token);
-                    return true;
-        }catch (Exception e){
-            return false;
-        }
-
     }
 }

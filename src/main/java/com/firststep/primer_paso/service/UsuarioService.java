@@ -47,8 +47,10 @@ public class UsuarioService {
 
         usuarioRepository.save(usuario); // guardamos el nuevo usuario
 
-        String accesToken = jwtUtil.generateToken(usuario.getEmail(),usuario.getRol().name()); // usamos name o tambien se puede usar toString
+        // despues generamos el refresh y el accesstoken
         String refreshToken = refreshTokenService.createRefreshToken(usuario).getToken();
+        String accesToken = jwtUtil.generateToken(usuario.getEmail(),usuario.getRol().name()); // usamos name o tambien se puede usar toString
+
 
         return Map.of(
             "accessToken", accesToken,
@@ -63,7 +65,7 @@ public class UsuarioService {
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword())
         );
 
-        // recuperamos el usuario o regresamos una exception se que no lo encontramos
+        // recuperamos el usuario o regresamos una exception si es que no lo encontramos
         Usuario usuario = usuarioRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new GlobalExceptions.usuarioNoEncontradoException("Credenciales Incorrectas"));
 
