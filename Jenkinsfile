@@ -10,7 +10,7 @@ pipeline {
         DOCKER_IMAGE = 'mi-app-springboot'
         FIXED_TAG = '1.0.0'
         CONTAINER_NAME = 'app-springboot-local'
-        HOST_PORT = '8080'
+        HOST_PORT = '8081'
         CONTAINER_PORT = '8080'
     }
 
